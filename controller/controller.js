@@ -6,7 +6,7 @@ const register = async(req, res, next) => {
     const { nama, email, password, alamat } = req.body
     const hash = await bcrypt.hash(password,10)
     try {
-    
+        // await db.query
         await db.query(`INSERT INTO users VALUES (DEFAULT, $1, $2, $3, DEFAULT, $4)`, [nama, email, hash, alamat])
         res.send("Data Register Success")
     } catch (error){
