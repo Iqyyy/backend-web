@@ -1,6 +1,7 @@
 require("dotenv").config();
 const bcrypt = require('bcryptjs');
 const db = require("../db.config/db.config");
+const jwt = require('jsonwebtoken');
 
 const register = async(req, res, next) => {
     const { nama, email, password, alamat } = req.body
@@ -30,7 +31,7 @@ const login = async(req, res, next) => {
             else {
 
                 const data = {
-                    id: datas.rows[0].id,
+                    id_user: datas.rows[0].id_user,
                     nama: datas.rows[0].nama,
                     email: datas.rows[0].email,
                     password: datas.rows[0].password,
@@ -40,7 +41,7 @@ const login = async(req, res, next) => {
                 const token = jwt.sign(data, process.env.SECRET)
                 datas.rows[0].token = token
 
-                res.cookie("token", token).status(200)
+                res.cookie("token", token).status(200).send(datas.rows[0])
             }
         })
     }
