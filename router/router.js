@@ -7,6 +7,8 @@ router.post('/register', controller.register)
 
 router.post('/login', controller.login)
 
+router.post('/profile', Auth.verifyToken, controller.profile)
+
 router.post('/logout', Auth.verifyToken, controller.logout)
 
 router.post('/verify', Auth.verifyToken, controller.verify)

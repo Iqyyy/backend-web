@@ -51,17 +51,50 @@ const login = async(req, res, next) => {
 
 }
 
-const logout = async(req, res, next) => {
+const profile = async(req, res, next) => {
+    const verified = req.verified
+    const datas = await db.query(`SELECT * FROM users where id_user=$1`, [verified])
+    try {
+        const data = {
+            id_user: datas.rows[0].id_user,
+            nama: datas.rows[0].nama,
+            email: datas.rows[0].email,
+            password: datas.rows[0].password,
+            alamat: datas.rows[0].alamat
+        }
 
+        res.status(200).send(data)
+
+    } catch(err) {
+        console.log(err.message);
+        return res.status(500).send(err)
+    }
+}
+
+const logout = async(req, res, next) => {
+    try {
+        res.clearCookie('token').send("Logout Success")
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500).send(err)
+    }
 }
 
 const verify = async(req, res, next) => {
-
+    try {
+        const verified = req.verified
+        const datas = await db.query(`SELECT * FROM users WHERE id_user=$1`, [verified])
+        res.status(200).json(datas.rows[0])
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500).send(err)    
+    }
 }
 
 module.exports = {
     register,
     login,
+    profile,
     logout,
     verify
 }
