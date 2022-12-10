@@ -71,6 +71,24 @@ const profile = async(req, res, next) => {
     }
 }
 
+const product = async(req, res, next) => {
+    const {id_item} = req.params
+    const datas = await db.query(`SELECT * FROM collection WHERE id_item=$1`, [id_item])
+    try {
+        const data = {
+            id_item: datas.rows[0].id_item,
+            jenis: datas.rows[0].jenis,
+            nama: datas.rows[0].nama,
+            harga: datas.rows[0].harga,
+            stok: datas.rows[0].stok
+        }
+        res.status(200).send(data)
+    } catch(err){
+        return res.status(500).send(err)
+    }
+}
+
+
 const logout = async(req, res, next) => {
     try {
         res.clearCookie('token').send("Logout Success")
@@ -95,6 +113,7 @@ module.exports = {
     register,
     login,
     profile,
+    product,
     logout,
     verify
 }
