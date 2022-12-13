@@ -61,6 +61,7 @@ const profile = async(req, res, next) => {
             nama: datas.rows[0].nama,
             email: datas.rows[0].email,
             password: datas.rows[0].password,
+            saldo: datas.rows[0].saldo,
             alamat: datas.rows[0].alamat
         }
 
