@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const db = require("../db.config/db.config");
 const jwt = require('jsonwebtoken');
 
+
 const register = async(req, res, next) => {
     const { nama, email, password, alamat } = req.body
     const hash = await bcrypt.hash(password,10)
@@ -51,9 +52,29 @@ const login = async(req, res, next) => {
 
 }
 
-// const profile = async(req, res, next) => {
+const profile = async(req, res, next) => {
+    const verified = req.verified
+    const datas = await db.query(`SELECT * FROM users where id_user=$1`, [verified])
+    try {
+        const data = {
+            id_user: datas.rows[0].id_user,
+            nama: datas.rows[0].nama,
+            email: datas.rows[0].email,
+            password: datas.rows[0].password,
+            alamat: datas.rows[0].alamat
+        }
+
+        res.status(200).send(data)
+
+    } catch(err) {
+        console.log(err.message);
+        return res.status(500).send(err)
+    }
+}
+
+// const addcart = async(req, res, next) => {
 //     const verified = req.verified
-//     const datas = await db.query(`SELECT * FROM users where id_user=$1`, [verified])
+//     const datas = await db.query(``, [verified])
 //     try {
 //         const data = {
 //             id_user: datas.rows[0].id_user,
@@ -94,7 +115,8 @@ const verify = async(req, res, next) => {
 module.exports = {
     register,
     login,
-    // profile,
+    profile,
+    // addcart,
     logout,
     verify
 }
