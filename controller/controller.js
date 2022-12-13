@@ -73,7 +73,7 @@ const profile = async(req, res, next) => {
 }
 
 const addcart = async(req, res, next) => {
-    const id_user = req.body.id_user
+    const id_user = req.verified
     const id_item = req.body.id_item
     const jumlah = req.body.count
     const datas = await db.query(`INSERT INTO CART VALUES(DEFAULT, $1, $2, $3)`, [id_user, id_item, jumlah])
