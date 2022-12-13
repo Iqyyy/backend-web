@@ -9,7 +9,7 @@ router.post('/login', controller.login)
 
 router.post('/profile', Auth.verifyToken, controller.profile)
 
-// router.post('/addcart', Auth.verifyToken, controller.addcart)
+router.post('/addcart', Auth.verifyToken, controller.addcart)
 
 router.post('/logout', Auth.verifyToken, controller.logout)
 
