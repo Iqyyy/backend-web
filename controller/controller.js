@@ -72,25 +72,27 @@ const profile = async(req, res, next) => {
     }
 }
 
-// const addcart = async(req, res, next) => {
-//     const verified = req.verified
-//     const datas = await db.query(``, [verified])
-//     try {
-//         const data = {
-//             id_user: datas.rows[0].id_user,
-//             nama: datas.rows[0].nama,
-//             email: datas.rows[0].email,
-//             password: datas.rows[0].password,
-//             alamat: datas.rows[0].alamat
-//         }
+const addcart = async(req, res, next) => {
+    const verified = req.verified
+    const id_item = req.body.id_item
+    const jumlah = req.body.count
+    const datas = await db.query(`INSERT INTO CART VALUES(DEFAULT, $1, $2, $3)`, [verified, id_item, jumlah])
+    try {
+        const data = {
+            id_user: datas.rows[0].id_user,
+            nama: datas.rows[0].nama,
+            email: datas.rows[0].email,
+            password: datas.rows[0].password,
+            alamat: datas.rows[0].alamat
+        }
 
-//         res.status(200).send(data)
+        res.status(200).send(data)
 
-//     } catch(err) {
-//         console.log(err.message);
-//         return res.status(500).send(err)
-//     }
-// }
+    } catch(err) {
+        console.log(err.message);
+        return res.status(500).send(err)
+    }
+}
 
 const logout = async(req, res, next) => {
     try {
@@ -116,7 +118,7 @@ module.exports = {
     register,
     login,
     profile,
-    // addcart,
+    addcart,
     logout,
     verify
 }
