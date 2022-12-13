@@ -78,15 +78,7 @@ const addcart = async(req, res, next) => {
     const jumlah = req.body.count
     const datas = await db.query(`INSERT INTO CART VALUES(DEFAULT, $1, $2, $3)`, [verified, id_item, jumlah])
     try {
-        const data = {
-            id_user: datas.rows[0].id_user,
-            nama: datas.rows[0].nama,
-            email: datas.rows[0].email,
-            password: datas.rows[0].password,
-            alamat: datas.rows[0].alamat
-        }
-
-        res.status(200).send(data)
+        res.status(200).send("SUKSES")
 
     } catch(err) {
         console.log(err.message);
