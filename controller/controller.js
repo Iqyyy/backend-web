@@ -91,6 +91,10 @@ const checkout = async(req, res, next) => {
     const id_user = req.verified
     console.log(id_user)
     const datas = await db.query(`SELECT id_user, id_item,SUM(JUMLAH) FROM CART WHERE id_user = $1 GROUP BY id_user, id_item`,[id_user])
+    for (let i = 0; i < (datas.rows).length ; i++ ){
+        datas.rows[i].id_data = datas.rows[i].id_user
+        datas.rows[i].id_user = i
+    }
     try {
         if (datas.rows[0] == undefined ) {
             const data = {
@@ -101,13 +105,20 @@ const checkout = async(req, res, next) => {
             res.status(200).send(data)
         }
         else {
-            const data = {
-                id_user: datas.rows[0].id_user,
-                id_item: datas.rows[0].id_item,
-                quantity: datas.rows[0].sum
-            }
             res.status(200).send(datas.rows)
         } 
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500).send(err)
+    }
+}
+
+const removecart = async (req, res, next) => {
+    const id_user = req.verified
+    const id_item = req.body
+    const datas = await db.query(`DELETE FROM CART WHERE id_user = $1 and id_item = $2`,[id_user,id_item])
+    try {
+        res.status(200).send("item berhasil dihapus")
     } catch (err) {
         console.log(err.message);
         return res.status(500).send(err)
@@ -140,6 +151,7 @@ module.exports = {
     profile,
     addcart,
     checkout,
+    removecart,
     logout,
     verify
 }

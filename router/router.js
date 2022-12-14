@@ -13,6 +13,8 @@ router.post('/addcart', Auth.verifyToken, controller.addcart)
 
 router.post('/checkout', Auth.verifyToken, controller.checkout)
 
+router.post('/removecart', Auth.verifyToken, controller.checkout)
+
 router.post('/logout', Auth.verifyToken, controller.logout)
 
 router.post('/verify', Auth.verifyToken, controller.verify)
