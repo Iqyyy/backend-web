@@ -89,14 +89,25 @@ const addcart = async(req, res, next) => {
 
 const checkout = async(req, res, next) => {
     const id_user = req.verified
-    const datas = await db.query(`SELECT id_user, id_item,SUM(JUMLAH) FROM CART WHERE id_user = $1 GROUP BY id_user, id_item`, [id_user])
+    console.log(id_user)
+    const datas = await db.query(`SELECT id_user, id_item,SUM(JUMLAH) FROM CART WHERE id_user = $1 GROUP BY id_user, id_item`,[id_user])
     try {
-        const data = {
-            id_user: datas.rows[0].id_user,
-            id_item: datas.rows[0].id_item,
-            quantity: datas.rows[0].sum
+        if (datas.rows[0] == undefined ) {
+            const data = {
+                id_user: req.verified,
+                id_item: 0,
+                quantity: 0
+            }
+            res.status(200).send(data)
         }
-        res.status(200).send(data)
+        else {
+            const data = {
+                id_user: datas.rows[0].id_user,
+                id_item: datas.rows[0].id_item,
+                quantity: datas.rows[0].sum
+            }
+            res.status(200).send(data)
+        } 
     } catch (err) {
         console.log(err.message);
         return res.status(500).send(err)
