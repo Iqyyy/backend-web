@@ -106,7 +106,7 @@ const checkout = async(req, res, next) => {
                 id_item: datas.rows[0].id_item,
                 quantity: datas.rows[0].sum
             }
-            res.status(200).send(data)
+            res.status(200).send(datas.rows)
         } 
     } catch (err) {
         console.log(err.message);
