@@ -87,6 +87,17 @@ const addcart = async(req, res, next) => {
     }
 }
 
+const cart = async(req, res, next) => {
+    const id_user = req.verified
+    const datas = await db.query(`SELECT id_user, id_item,SUM(JUMLAH) FROM CART WHERE id_user = $1 GROUP BY id_user, id_item`, [id_user])
+    try {
+        res.status(200).send("CART SUKSES")
+    } catch (err) {
+        console.log(err.message);
+        return res.status(500).send(err)
+    }
+}
+
 const logout = async(req, res, next) => {
     try {
         res.clearCookie('token').send("Logout Success")
@@ -112,6 +123,7 @@ module.exports = {
     login,
     profile,
     addcart,
+    cart,
     logout,
     verify
 }
