@@ -11,7 +11,7 @@ router.post('/profile', Auth.verifyToken, controller.profile)
 
 router.post('/addcart', Auth.verifyToken, controller.addcart)
 
-router.post('/cart', Auth.verifyToken, controller.cart)
+router.post('/checkout', Auth.verifyToken, controller.cart)
 
 router.post('/logout', Auth.verifyToken, controller.logout)
 

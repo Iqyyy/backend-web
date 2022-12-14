@@ -87,11 +87,16 @@ const addcart = async(req, res, next) => {
     }
 }
 
-const cart = async(req, res, next) => {
+const checkout = async(req, res, next) => {
     const id_user = req.verified
     const datas = await db.query(`SELECT id_user, id_item,SUM(JUMLAH) FROM CART WHERE id_user = $1 GROUP BY id_user, id_item`, [id_user])
     try {
-        res.status(200).send("CART SUKSES")
+        const data = {
+            id_user: datas.rows[0].id_user,
+            id_item: datas.rows[0].id_item,
+            quantity: datas.rows[0].sum
+        }
+        res.status(200).send(data)
     } catch (err) {
         console.log(err.message);
         return res.status(500).send(err)
@@ -123,7 +128,7 @@ module.exports = {
     login,
     profile,
     addcart,
-    cart,
+    checkout,
     logout,
     verify
 }
