@@ -118,7 +118,7 @@ const removecart = async (req, res, next) => {
     const datas = await db.query(`DELETE FROM CART WHERE id_user = $1 and id_item = $2`,[id_user,id_item])
     const query = await db.query(`SELECT * FROM CART`) 
     try {
-        res.status(200).send(query.rows[0])
+        res.status(200).send(query.rows)
     } catch (err) {
         console.log(err.message);
         return res.status(500).send(err)
