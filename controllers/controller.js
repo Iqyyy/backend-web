@@ -114,7 +114,7 @@ const checkout = async(req, res, next) => {
 
 const removecart = async (req, res, next) => {
     const id_user = req.verified
-    const id_item = req.body
+    const id_item = req.body.id_item
     const datas = await db.query(`DELETE FROM CART WHERE id_user = $1 and id_item = $2`,[id_user,id_item])
     try {
         res.status(200).send("item berhasil dihapus")
@@ -123,6 +123,8 @@ const removecart = async (req, res, next) => {
         return res.status(500).send(err)
     }
 }
+
+
 
 const logout = async(req, res, next) => {
     try {
