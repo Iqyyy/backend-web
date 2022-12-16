@@ -125,7 +125,21 @@ const removecart = async (req, res, next) => {
     }
 }
 
+const productlog = async (req, res, next) => {
+    const id_user = req.verified
+    const id_item = req.body.id_item
+    const jumlah = req.body.jumlah
+    const harga = req.body.jumlah
+    for (let i = 0 ; i < id_item.length ; i++ ){
+        const datas = await db.query(`INSERT INTO log VALUES(DEFAULT, $1, $2, $3, $4, CURRENT_TIMESTAMP)`, [id_user,id_item[i],jumlah[i],harga[i]])
+    }
+    try {
+        return res.status(200).send("SUKSES")
+    } catch (err) {
+        return res.status(500).send(err)
+    }
 
+}
 
 const logout = async(req, res, next) => {
     try {
@@ -154,6 +168,7 @@ module.exports = {
     addcart,
     checkout,
     removecart,
+    productlog,
     logout,
     verify
 }

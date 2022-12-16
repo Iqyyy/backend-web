@@ -15,6 +15,8 @@ router.post('/checkout', Auth.verifyToken, controller.checkout)
 
 router.post('/removecart', Auth.verifyToken, controller.removecart)
 
+router.post('/productlog', Auth.verifyToken, controller.productlog)
+
 router.post('/logout', Auth.verifyToken, controller.logout)
 
 router.post('/verify', Auth.verifyToken, controller.verify)
